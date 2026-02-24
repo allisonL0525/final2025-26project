@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Club Login</title>
+    <style>
+
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        h2 { margin-top: 0; color: #333; }
+        
+        input[type="radio"] { display: none; }
+        
+        .tabs { display: flex; justify-content: space-between; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; overflow: hidden; }
+        .tabs label { flex: 1; padding: 12px; cursor: pointer; background: #f8f9fa; font-size: 16px; color: #555; transition: 0.3s; }
+        
+        #tab-member:checked ~ .tabs .label-member,
+        #tab-exec:checked ~ .tabs .label-exec { background: #007BFF; color: white; font-weight: bold; }
+        
+        .form-container { display: none; text-align: left; }
+        
+        #tab-member:checked ~ #form-member { display: block; }
+        #tab-exec:checked ~ #form-exec { display: block; }
+
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .submit-btn { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .submit-btn:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Science Club Login</h2>
+
+    <input type="radio" id="tab-member" name="login-tabs" checked>
+    <input type="radio" id="tab-exec" name="login-tabs">
+
+    <div class="tabs">
+        <label for="tab-member" class="label-member">Member</label>
+        <label for="tab-exec" class="label-exec">Executive</label>
+    </div>
+
+    <form id="form-member" class="form-container" action="/login" method="POST">
+        <input type="hidden" name="role" value="member"> 
+        
+        <div class="form-group">
+            <label>Student Number</label>
+            <input type="text" name="identifier" required>
+        </div>
+        <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="secondary" required>
+        </div>
+        <button type="submit" class="submit-btn">Login</button>
+    </form>
+
+    <form id="form-exec" class="form-container" action="/login" method="POST">
+        <input type="hidden" name="role" value="exec">
+        
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="identifier" required>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="secondary" required>
+        </div>
+        <button type="submit" class="submit-btn">Login</button>
+    </form>
+
+</div>
+
+</body>
+</html>
+
+<a href ="executive_dashboard.html" 

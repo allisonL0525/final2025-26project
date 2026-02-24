@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz - Executive Control</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; margin: 0; }
+        .container { max-width: 700px; margin: 20px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
+        .back-link { color: #007BFF; text-decoration: none; font-weight: bold; }
+        .back-link:hover { text-decoration: underline; }
+        
+        h2, h3 { color: #333; margin-top: 0; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        .form-group input[type="text"], .form-group select { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-size: 16px;
+        }
+
+        .question-block { background: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        
+        .submit-link { 
+            display: block; 
+            width: 100%; 
+            padding: 15px; 
+            background-color: #28a745; 
+            color: white; 
+            text-decoration: none; 
+            text-align: center; 
+            border-radius: 4px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            box-sizing: border-box;
+            transition: 0.3s; 
+            margin-top: 20px;
+        }
+        .submit-link:hover { background-color: #218838; }
+        
+        .add-q-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .add-q-btn:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>Create a New Quiz</h2>
+        <a href="executive_dashboard.html" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <div class="form-group">
+        <label>Quiz Title</label>
+        <input type="text" placeholder="e.g., General Chemistry Trivia">
+    </div>
+
+    <div class="question-block">
+        <h3>Question 1</h3>
+        <div class="form-group">
+            <label>Question Prompt</label>
+            <input type="text" placeholder="Type your question here...">
+        </div>
+        
+        <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">Answer Choices</label>
+        <div class="answers-grid">
+            <input type="text" placeholder="Option A">
+            <input type="text" placeholder="Option B">
+            <input type="text" placeholder="Option C">
+            <input type="text" placeholder="Option D">
+        </div>
+
+        <div class="form-group">
+            <label>Which option is correct?</label>
+            <select>
+                <option value="A">Option A</option>
+                <option value="B">Option B</option>
+                <option value="C">Option C</option>
+                <option value="D">Option D</option>
+            </select>
+        </div>
+    </div>
+
+    <a href="#" class="add-q-btn">+ Add Another Question</a>
+
+    <a href="executive_dashboard.html" class="submit-link">Save and Publish Quiz</a>
+
+</div>
+
+</body>
+</html>
