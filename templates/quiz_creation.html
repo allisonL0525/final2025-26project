@@ -5,101 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Quiz - Executive Control</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; margin: 0; }
-        .container { max-width: 700px; margin: 20px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
-        .back-link { color: #007BFF; text-decoration: none; font-weight: bold; }
-        .back-link:hover { text-decoration: underline; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; margin: 0; color: #333; }
         
-        h2, h3 { color: #333; margin-top: 0; }
+        /* Navbar */
+        .navbar { background-color: #003366; color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .navbar-brand { font-size: 24px; font-weight: bold; letter-spacing: 1px; }
+        .navbar-brand span { color: #66b2ff; font-size: 14px; text-transform: uppercase; margin-left: 10px; vertical-align: middle; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 15px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #66b2ff; }
+        .nav-links .logout-btn { background-color: white; color: #003366; padding: 6px 14px; border-radius: 20px; font-weight: bold; margin-left: 25px; }
 
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        h2 { color: #003366; margin-top: 0; margin-bottom: 25px; border-bottom: 2px solid #e6f2ff; padding-bottom: 15px; }
+
+        /* Form Styling */
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
-        .form-group input[type="text"], .form-group select { 
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
-            box-sizing: border-box; 
-            font-size: 16px;
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 14px; }
+        .form-group input[type="text"], .form-group input[type="number"], .form-group textarea { 
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; 
         }
 
-        .question-block { background: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        
-        .submit-link { 
-            display: block; 
-            width: 100%; 
-            padding: 15px; 
-            background-color: #28a745; 
-            color: white; 
-            text-decoration: none; 
-            text-align: center; 
-            border-radius: 4px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            box-sizing: border-box;
-            transition: 0.3s; 
-            margin-top: 20px;
-        }
-        .submit-link:hover { background-color: #218838; }
-        
-        .add-q-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #6c757d;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-            text-align: center;
-        }
-        .add-q-btn:hover { background-color: #5a6268; }
+        /* Quiz Options Grid */
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; background-color: #f8fbff; padding: 20px; border-radius: 8px; border: 1px solid #e6f2ff; }
+        .option-row { display: flex; align-items: center; gap: 10px; }
+        .option-row input[type="radio"] { transform: scale(1.2); cursor: pointer; }
+
+        .submit-btn { width: 100%; padding: 15px; background-color: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; display: block; text-align: center; text-decoration: none; box-sizing: border-box; }
+        .submit-btn:hover { background-color: #218838; }
     </style>
 </head>
 <body>
 
+<div class="navbar">
+    <div class="navbar-brand">🔬 Science Club <span>Exec Control</span></div>
+    <div class="nav-links">
+        <a href="exec_home.html">Dashboard</a>
+        <a href="tracker.html">Point Tracker</a>
+        <a href="create_quiz.html" class="active">Quizzes</a>
+        <a href="reports.html">Reports</a>
+        <a href="login.html" class="logout-btn">Logout</a>
+    </div>
+</div>
+
 <div class="container">
-    <div class="header">
-        <h2>Create a New Quiz</h2>
-        <a href="executive_dashboard.html" class="back-link">← Back to Dashboard</a>
-    </div>
-
-    <div class="form-group">
-        <label>Quiz Title</label>
-        <input type="text" placeholder="e.g., General Chemistry Trivia">
-    </div>
-
-    <div class="question-block">
-        <h3>Question 1</h3>
-        <div class="form-group">
-            <label>Question Prompt</label>
-            <input type="text" placeholder="Type your question here...">
-        </div>
+    <div class="card">
+        <h2>📝 Create Weekly Trivia</h2>
         
-        <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">Answer Choices</label>
-        <div class="answers-grid">
-            <input type="text" placeholder="Option A">
-            <input type="text" placeholder="Option B">
-            <input type="text" placeholder="Option C">
-            <input type="text" placeholder="Option D">
-        </div>
+        <form action="exec_home.html">
+            <div class="form-group">
+                <label>Question Text</label>
+                <textarea rows="3" placeholder="e.g. Which element is the most abundant in the Earth's atmosphere?" required></textarea>
+            </div>
 
-        <div class="form-group">
-            <label>Which option is correct?</label>
-            <select>
-                <option value="A">Option A</option>
-                <option value="B">Option B</option>
-                <option value="C">Option C</option>
-                <option value="D">Option D</option>
-            </select>
-        </div>
+            <label style="font-weight: 600; color: #444; font-size: 14px; display: block; margin-bottom: 10px;">Multiple Choice Options (Select the correct answer)</label>
+            <div class="options-grid">
+                <div class="option-row">
+                    <input type="radio" name="correct_answer" required>
+                    <input type="text" placeholder="Option A" required>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="correct_answer">
+                    <input type="text" placeholder="Option B" required>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="correct_answer">
+                    <input type="text" placeholder="Option C" required>
+                </div>
+                <div class="option-row">
+                    <input type="radio" name="correct_answer">
+                    <input type="text" placeholder="Option D" required>
+                </div>
+            </div>
+
+
+            <button type="submit" class="submit-btn">Publish Quiz to Members</button>
+        </form>
     </div>
-
-    <a href="#" class="add-q-btn">+ Add Another Question</a>
-
-    <a href="executive_dashboard.html" class="submit-link">Save and Publish Quiz</a>
-
 </div>
 
 </body>

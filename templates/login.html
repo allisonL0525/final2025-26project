@@ -3,38 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Science Club Login</title>
+    <title>Science Club Portal - Login</title>
     <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #C7DFC5; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+  
+        .login-container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px;
+            width: 100%; 
+            max-width: 420px; 
+            text-align: center; 
+            box-sizing: border-box;
+        }
 
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-        h2 { margin-top: 0; color: #333; }
+        .brand-icon { font-size: 40px; margin-bottom: 10px; }
+        h2 { margin-top: 0; color: #223127; font-size: 28px; margin-bottom: 5px; }
         
         input[type="radio"] { display: none; }
-        
-        .tabs { display: flex; justify-content: space-between; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; overflow: hidden; }
-        .tabs label { flex: 1; padding: 12px; cursor: pointer; background: #f8f9fa; font-size: 16px; color: #555; transition: 0.3s; }
-        
+
+        .tabs { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 25px; 
+            border-radius: 25px;
+            overflow: hidden; 
+            background-color: #C7DFC5; 
+            border: 2px solid #28A46A; 
+        }
+        .tabs label { 
+            flex: 1; 
+            padding: 12px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            color: #28A46A; 
+            font-weight: bold; 
+            transition: 0.3s; 
+        }
         #tab-member:checked ~ .tabs .label-member,
-        #tab-exec:checked ~ .tabs .label-exec { background: #007BFF; color: white; font-weight: bold; }
+        #tab-exec:checked ~ .tabs .label-exec { 
+            background: #28A46A; 
+            color: white; 
+        }
         
         .form-container { display: none; text-align: left; }
-        
         #tab-member:checked ~ #form-member { display: block; }
         #tab-exec:checked ~ #form-exec { display: block; }
-
-
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .submit-btn { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; }
-        .submit-btn:hover { background-color: #218838; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #0A122A; font-size: 14px; }
+        .form-group input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            box-sizing: border-box; 
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #C7DFC5;
+            box-shadow: 0 0 5px #0A122A;
+        }
+        .submit-link { 
+            display: block; 
+            width: 100%; 
+            padding: 14px; 
+            background-color: #28A46A;
+            color: white; 
+            text-decoration: none; 
+            text-align: center; 
+            border-radius: 25px;
+            font-size: 16px; 
+            font-weight: bold; 
+            box-sizing: border-box;
+            transition: 0.3s; 
+            margin-top: 10px;
+        }
+        .submit-link:hover { background-color: #223127;}
     </style>
 </head>
 <body>
 
 <div class="login-container">
-    <h2>Science Club Login</h2>
+    <div class="brand-icon">🔬</div>
+    <h2>Science Club</h2>
+    <p> </p>
 
     <input type="radio" id="tab-member" name="login-tabs" checked>
     <input type="radio" id="tab-exec" name="login-tabs">
@@ -44,37 +106,31 @@
         <label for="tab-exec" class="label-exec">Executive</label>
     </div>
 
-    <form id="form-member" class="form-container" action="/login" method="POST">
-        <input type="hidden" name="role" value="member"> 
-        
+    <div id="form-member" class="form-container">
         <div class="form-group">
             <label>Student Number</label>
-            <input type="text" name="identifier" required>
+            <input type="text">
         </div>
         <div class="form-group">
             <label>Last Name</label>
-            <input type="text" name="secondary" required>
+            <input type="text">
         </div>
-        <button type="submit" class="submit-btn">Login</button>
-    </form>
+        <a href="member_dashboard.html" class="submit-link">Login</a>
+    </div>
 
-    <form id="form-exec" class="form-container" action="/login" method="POST">
-        <input type="hidden" name="role" value="exec">
-        
+    <div id="form-exec" class="form-container">
         <div class="form-group">
             <label>Username</label>
-            <input type="text" name="identifier" required>
+            <input type="text">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" name="secondary" required>
+            <input type="password">
         </div>
-        <button type="submit" class="submit-btn">Login</button>
-    </form>
+        <a href="executive_dashboard.html" class="submit-link">Login</a>
+    </div>
 
 </div>
 
 </body>
 </html>
-
-<a href ="executive_dashboard.html" 
