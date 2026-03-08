@@ -28,12 +28,6 @@
             width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; 
         }
         
-        /* App-Style Balance Preview */
-        .balance-preview { background-color: #e6f2ff; border: 1px solid #b3d7ff; padding: 15px; border-radius: 8px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
-        .balance-preview p { margin: 0; font-size: 14px; color: #003366; font-weight: bold; }
-        .balance-preview .points { font-size: 24px; font-weight: bold; color: #000; }
-        .balance-preview .star { color: #007BFF; }
-
         .submit-btn { width: 100%; padding: 15px; background-color: #0056b3; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; display: block; text-align: center; text-decoration: none; box-sizing: border-box; }
         .submit-btn:hover { background-color: #003366; }
     </style>
@@ -43,48 +37,47 @@
 <div class="navbar">
     <div class="navbar-brand">🔬 Science Club <span>Exec Control</span></div>
     <div class="nav-links">
-        <a href="exec_home.html">Dashboard</a>
-        <a href="tracker.html">Point Tracker</a>
-        <a href="modify_data.html" class="active">Modify Points</a>
-        <a href="login.html" class="logout-btn">Logout</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/master-point-tracker">Point Tracker</a>
+        <a href="/modify-data" class="active">Modify Points</a>
+        <a href="/logout" class="logout-btn">Logout</a>
     </div>
 </div>
 
 <div class="container">
     <div class="card">
         <h2>Modify Member Points</h2>
-        
-        <div class="balance-preview">
-            <p>Selected: Casey Smith</p>
-            <div class="points">278 <span class="star">★</span></div>
-        </div>
 
-        <form action="tracker.html">
+        <form method="POST" action="/modify-data">
+            
             <div class="form-group">
-                <label>Select Member</label>
-                <select required>
-                    <option value="123" selected>Smith, Casey (123456789)</option>
-                    <option value="124">Johnson, Alex (987654321)</option>
-                </select>
+                <label>Search and Select Member</label>
+                <input list="member_list" name="selected_member" placeholder="Type name or ID..." required>
+                <datalist id="member_list">
+                    {% for member in members %}
+                        <option value="{{ member.display }}">
+                    {% endfor %}
+                </datalist>
+                <small style="color: #666; font-size: 12px; margin-top: 4px; display: block;">Select from the dropdown to ensure a perfect match.</small>
             </div>
             
             <div class="form-group" style="display: flex; gap: 15px;">
                 <div style="flex: 1;">
                     <label>Action</label>
-                    <select required>
+                    <select name="action" required>
                         <option value="add">Add Points (+)</option>
                         <option value="subtract">Deduct Points (-)</option>
                     </select>
                 </div>
                 <div style="flex: 1;">
                     <label>Amount</label>
-                    <input type="number" min="1" placeholder="e.g. 50" required>
+                    <input type="number" name="amount" min="1" placeholder="e.g. 50" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Reason (Optional)</label>
-                <textarea rows="3" placeholder="e.g. Won the science fair project..."></textarea>
+                <textarea name="reason" rows="3" placeholder="e.g. Won the science fair project..."></textarea>
             </div>
 
             <button type="submit" class="submit-btn">Apply Changes</button>
@@ -94,3 +87,4 @@
 
 </body>
 </html>
+

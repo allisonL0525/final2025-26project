@@ -23,6 +23,7 @@
             max-width: 420px; 
             text-align: center; 
             box-sizing: border-box;
+            
         }
 
         .brand-icon { font-size: 40px; margin-bottom: 10px; }
@@ -106,29 +107,31 @@
         <label for="tab-exec" class="label-exec">Executive</label>
     </div>
 
-    <div id="form-member" class="form-container">
-        <div class="form-group">
-            <label>Student Number</label>
-            <input type="text">
-        </div>
-        <div class="form-group">
-            <label>Last Name</label>
-            <input type="text">
-        </div>
-        <a href="member_dashboard.html" class="submit-link">Login</a>
-    </div>
 
-    <div id="form-exec" class="form-container">
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password">
-        </div>
-        <a href="executive_dashboard.html" class="submit-link">Login</a>
+<form id="form-member" class="form-container" action="/member-login" method="POST">
+    <div class="form-group">
+        <label>Student Number</label>
+        <input type="text" name="student_num" required>
     </div>
+    <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="last_name" required>
+    </div>
+    <button type="submit" class="submit-link" style="width: 100%; padding: 10px; border: none; cursor: pointer;">Login</button>
+</form>
+
+
+<form id="form-exec" class="form-container" action="/login" method="POST">
+    <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" required>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" required>
+    </div>
+    <button type="submit" class="submit-link">Login</button>
+</form>
 
 </div>
 

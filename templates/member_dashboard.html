@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Dashboard - Science Club</title>
     <style>
+        /* Keep your existing styles here – they are fine */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #f0f4f8;
@@ -21,11 +22,7 @@
             align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .navbar-brand {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
+        .navbar-brand { font-size: 24px; font-weight: bold; letter-spacing: 1px; }
         .nav-links a {
             color: white;
             text-decoration: none;
@@ -34,19 +31,13 @@
             font-weight: 500;
             transition: 0.3s;
         }
-        .nav-links a:hover {
-            color: #b3d7ff; 
-        }
+        .nav-links a:hover { color: #b3d7ff; }
         .nav-links .logout-btn {
             background-color: white;
             color: #0056b3;
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: bold;
-        }
-        .nav-links .logout-btn:hover {
-            background-color: #e6f2ff;
-            color: #0056b3;
         }
 
         .main-container { 
@@ -58,7 +49,6 @@
             padding: 0 20px; 
         }
 
-
         .panel {
             background: white; 
             padding: 30px; 
@@ -66,32 +56,24 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
         }
 
-        .greeting { font-size: 32px; font-weight: bold; color: #0056b3; margin-top: 0; margin-bottom: 25px; }
+        .greeting { font-size: 32px; font-weight: bold; color: #0056b3; margin-top: 0; margin-bottom: 5px; }
+        .student-id { color: #666; margin-bottom: 25px; font-size: 14px; }
   
-        .balance-header { display: flex; justify-content: space-between; align-items: baseline; }
+        .balance-header { display: flex; justify-content: space-between; align-items: baseline; margin-top: 20px;}
         .points { font-size: 48px; font-weight: bold; color: #000; margin: 0; }
-        .star { color: #007BFF; font-size: 36px; }
-        .subtitle { color: #666; font-size: 16px; margin-top: -5px; }
+        .points-label { font-size: 18px; color: #666; }
 
-        .progress-section { margin: 40px 0; position: relative; }
-        .progress-bar-bg { position: absolute; top: 12px; left: 0; right: 0; height: 6px; background-color: #e6e6e6; z-index: 1; border-radius: 3px; }
-        .progress-bar-fill { position: absolute; top: 12px; left: 0; height: 6px; background-color: #007BFF; width: 70%; z-index: 2; border-radius: 3px; }
+        .progress-section { margin: 50px 0; position: relative; height: 40px; }
+        .progress-bar-bg { position: absolute; top: 12px; left: 0; right: 0; height: 8px; background-color: #e6e6e6; z-index: 1; border-radius: 4px; }
+        .progress-bar-fill { position: absolute; top: 12px; left: 0; height: 8px; background-color: #007BFF; z-index: 2; border-radius: 4px; transition: width 0.5s ease-in-out; }
         
-        .nodes { display: flex; justify-content: space-between; position: relative; z-index: 3; }
-        .node-container { display: flex; flex-direction: column; align-items: center; }
-        .node { width: 18px; height: 18px; border-radius: 50%; background-color: #e6e6e6; margin-bottom: 8px; border: 4px solid white; }
+        .nodes { display: flex; justify-content: space-between; position: relative; z-index: 3; top: 3px; }
+        .node-container { display: flex; flex-direction: column; align-items: center; width: 40px; }
+        .node { width: 18px; height: 18px; border-radius: 50%; background-color: #e6e6e6; border: 4px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background-color 0.5s;}
         .node.active { background-color: #007BFF; }
-        .node-label { font-size: 14px; color: #666; font-weight: bold; }
-
-        .action-buttons { display: flex; gap: 15px; margin-top: 30px; }
-        .btn-outline { padding: 12px 25px; border: 2px solid #0056b3; border-radius: 25px; color: #0056b3; text-decoration: none; font-weight: bold; font-size: 16px; transition: 0.3s; }
-        .btn-solid { padding: 12px 30px; background: #0056b3; border: 2px solid #0056b3; border-radius: 25px; color: white; text-decoration: none; font-weight: bold; font-size: 16px; transition: 0.3s; }
-        .btn-outline:hover { background: #e6f2ff; }
-        .btn-solid:hover { background: #004494; }
-
+        .node-label { font-size: 12px; color: #666; font-weight: bold; margin-top: 8px; }
 
         .cards-header { font-size: 20px; margin-top: 0; margin-bottom: 20px; color: #333; }
-        
         .promo-card { 
             background-color: #007BFF; 
             border-radius: 12px; 
@@ -100,21 +82,14 @@
             text-decoration: none; 
             display: block; 
             margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,123,255,0.2);
             transition: 0.3s;
         }
-        .promo-card.secondary { 
-            background-color: #e6f2ff;
-            color: #0056b3; 
-            border: 1px solid #b3d7ff;
-            box-shadow: none;
-        }
-        .promo-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
-        .promo-badge { background: #004494; color: white; font-size: 11px; font-weight: bold; padding: 5px 10px; border-radius: 4px; display: inline-block; margin-bottom: 12px; letter-spacing: 1px; }
-        .promo-card.secondary .promo-badge { background: white; color: #0056b3; border: 1px solid #b3d7ff; }
-        .promo-title { font-size: 20px; font-weight: bold; letter-spacing: 1px; margin: 0 0 8px 0; }
-        .promo-sub { font-size: 13px; opacity: 0.9; letter-spacing: 1px; margin: 0; }
-
+        .promo-card.secondary { background-color: #e6f2ff; color: #0056b3; border: 1px solid #b3d7ff; }
+        .promo-card:hover { transform: translateY(-3px); }
+        .promo-badge { background: #004494; color: white; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+        .promo-card.secondary .promo-badge { background: #007BFF; }
+        .promo-title { font-size: 18px; font-weight: bold; margin: 0 0 5px 0; }
+        .promo-sub { font-size: 12px; opacity: 0.9; margin: 0; }
     </style>
 </head>
 <body>
@@ -122,66 +97,66 @@
 <div class="navbar">
     <div class="navbar-brand">🔬 Science Club</div>
     <div class="nav-links">
-        <a href="attendance_form.html">Log Attendance</a>
-        <a href="quiz_taking.html">Take Quiz</a>
-        <a href="login.html" class="logout-btn">Logout</a> 
+        <a href="/attendance-form">Log Attendance</a>
+        <a href="/quiz-taking">Take Quiz</a>         <!-- fixed: hyphen matches Flask route -->
+        <a href="/logout" class="logout-btn">Logout</a>
     </div>
-</div>
+</div>   <!-- navbar closes correctly -->
 
 <div class="main-container">
-    
     <div class="panel">
-        <h1 class="greeting"> {}</h1>
+        <h1 class="greeting">Welcome, {{ session.get('first_name', 'Member') }}!</h1>
+        <p class="student-id">Student ID: {{ session.get('student_id', 'N/A') }}</p>
 
         <div class="balance-header">
-            <p class="points">{number of points} </span></p>
-            <a href="#" style="color: #007BFF; text-decoration: none; font-weight: bold;">Point History ➔</a>
+            <div>
+                <p class="points">{{ session.get('points', 0) }} <span class="points-label">Points</span></p>
+            </div>
         </div>
 
         <div class="progress-section">
             <div class="progress-bar-bg"></div>
-            <div class="progress-bar-fill" style="width: 70%;"></div> 
-            
+            <div class="progress-bar-fill" style="width: {{ (session.get('points', 0) / 25 * 100) if session.get('points', 0) <= 25 else 100 }}%;"></div> 
             <div class="nodes">
                 <div class="node-container">
-                    <div class="node active"></div>
+                    <div class="node {% if session.get('points', 0) >= 1 %}active{% endif %}"></div>
+                    <div class="node-label">1</div>
+                </div>
+                <div class="node-container">
+                    <div class="node {% if session.get('points', 0) >= 5 %}active{% endif %}"></div>
                     <div class="node-label">5</div>
                 </div>
                 <div class="node-container">
-                    <div class="node active"></div>
+                    <div class="node {% if session.get('points', 0) >= 10 %}active{% endif %}"></div>
                     <div class="node-label">10</div>
                 </div>
                 <div class="node-container">
-                    <div class="node active"></div>
+                    <div class="node {% if session.get('points', 0) >= 15 %}active{% endif %}"></div>
                     <div class="node-label">15</div>
                 </div>
                 <div class="node-container">
-                    <div class="node active"></div>
-                    <div class="node-label">20</div>
-                </div>
-                <div class="node-container">
-                    <div class="node"></div> <div class="node-label"></div>
+                    <div class="node {% if session.get('points', 0) >= 25 %}active{% endif %}"></div>
+                    <div class="node-label">25</div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 
     <div class="right-column">
         <h2 class="cards-header">Quick Actions</h2>
-        
-        <a href="quiz_taking.html" class="promo-card">
+
+        <a href="/quiz-taking" class="promo-card">    <!-- already correct -->
             <span class="promo-badge">NEW</span>
             <h3 class="promo-title">WEEKLY TRIVIA</h3>
             <p class="promo-sub">EARN EXTRA POINTS TODAY</p>
         </a>
 
-        <a href="attendance_form.html" class="promo-card secondary">
+        <a href="/attendance-form" class="promo-card secondary">
             <span class="promo-badge">REQUIRED</span>
             <h3 class="promo-title">LOG ATTENDANCE</h3>
-            <p class="promo-sub">let us know that you are here</p>
+            <p class="promo-sub">Let us know that you are here</p>
         </a>
     </div>
-
 </div>
 
 </body>
