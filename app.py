@@ -2,6 +2,7 @@
 print("Hello!")
 
 import sqlite3
+import os  # FIX 1: added missing import
 from flask import Flask, render_template, request, redirect, session, flash, Response, url_for
 import csv
 from datetime import date, datetime, timedelta
@@ -39,6 +40,7 @@ def dashboard():
     if not session.get('logged_in'):
         return redirect('/') 
     return render_template('executive_dashboard.html')
+
 @app.route('/master-point-tracker')
 def master_point_tracker():
     if not session.get('logged_in'):
@@ -156,7 +158,7 @@ def attendance():
         conn = sqlite3.connect('science_club.db')
         cursor = conn.cursor()
 
-        cursor.execute("SELECT student_number, attendance_date FROM attendance ORDER BY attendance_date DESC")
+        cursor.execute("SELECT student_number, attendance_date FROM ATTENDANCE ORDER BY attendance_date DESC")
         records = cursor.fetchall()
 
         for row in records:
@@ -237,6 +239,7 @@ def quiz_creation():
             print("ERROR during quiz creation:", e)
             flash(f"Error saving quiz: {e}", "danger")
             return redirect(url_for('quiz_creation'))
+
     past_quizzes = []
     try:
         conn = sqlite3.connect('science_club.db')
@@ -262,7 +265,7 @@ def add_member():
             flash("All fields are required.", "danger")
             return render_template('add_member.html')
         try:
-            file_exists = os.path.isfile('members.csv')
+            file_exists = os.path.isfile('members.csv')  # FIX 1: os is now imported
             with open('members.csv', mode='a', newline='', encoding='utf-8-sig') as f:
                 writer = csv.writer(f)
                 if not file_exists:
@@ -270,7 +273,7 @@ def add_member():
                 writer.writerow([number, first, last])
 
             flash(f"Member {first} {last} added successfully.", "success")
-            return redirect(url_for('attendance.html'))
+            return redirect(url_for('attendance'))  # FIX 2: use function name, not template name
 
         except Exception as e:
             print(f"Error writing to members.csv: {e}")
@@ -342,7 +345,8 @@ def export_data():
         """)
         recent_quizzes_raw = cursor.fetchall()
 
-        for question_text, quiz_aID in recent_quizzes_raw:
+        # FIX 3: use consistent variable name quiz_ID (was quiz_aID in loop but quiz_ID in query)
+        for question_text, quiz_ID in recent_quizzes_raw:
             cursor.execute("""
                 SELECT COUNT(DISTINCT student_id)
                 FROM QUIZ_ATTEMPTS
@@ -378,7 +382,6 @@ def export_data():
     heading_style = styles['Heading2']
     normal_style = styles['Normal']
 
-    
     story.append(Paragraph("Science Club Weekly Report", title_style))
     story.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M')}", normal_style))
     story.append(Spacer(1, 0.2 * inch))
@@ -405,7 +408,6 @@ def export_data():
     ]))
     story.append(table_summary)
     story.append(Spacer(1, 0.3 * inch))
-
 
     story.append(Paragraph("Top 5 Point Earners (This Week)", heading_style))
     data_top = [["Rank", "Name", "Points"]]
@@ -464,7 +466,6 @@ def report_page():
     if not session.get('logged_in'):
         return redirect('/')
 
-    # Default safe values
     total_members = 0
     active_this_month = 0
     avg_attendance_pct = 0
@@ -478,7 +479,6 @@ def report_page():
         conn = sqlite3.connect('science_club.db')
         cursor = conn.cursor()
 
-        # ---- TOTAL MEMBERS & ACTIVE THIS MONTH ----
         try:
             cursor.execute("SELECT COUNT(*) FROM MEMBER")
             row = cursor.fetchone()
@@ -494,7 +494,6 @@ def report_page():
         except sqlite3.OperationalError as e:
             print(f"Table missing (MEMBER/ATTENDANCE): {e}")
 
-        # ---- AVERAGE ATTENDANCE PERCENTAGE ----
         try:
             cursor.execute("SELECT COUNT(*) FROM ATTENDANCE GROUP BY attendance_date")
             daily_counts = [r[0] for r in cursor.fetchall()]
@@ -504,7 +503,6 @@ def report_page():
         except sqlite3.OperationalError as e:
             print(f"Attendance table issue: {e}")
 
-        # ---- TOTAL POINTS AWARDED THIS WEEK ----
         try:
             cursor.execute("""
                 SELECT SUM(number_points)
@@ -517,7 +515,6 @@ def report_page():
             print(f"Points query failed (check award_date column): {e}")
             total_points = 0
 
-        # ---- TOP 5 POINT EARNERS (this week) ----
         try:
             cursor.execute("""
                 SELECT m.Firstname, m.Lastname, COALESCE(SUM(p.number_points), 0) as total
@@ -533,9 +530,7 @@ def report_page():
             print(f"Top earners query failed: {e}")
             top_earners = []
 
-        # ---- RECENT QUIZZES & PARTICIPATION ----
         try:
-            # Get last 3 quiz IDs with their first question text
             cursor.execute("""
                 SELECT qst.question, q.quizID
                 FROM QUIZ q
@@ -545,8 +540,7 @@ def report_page():
             """)
             recent_quizzes_raw = cursor.fetchall()
 
-            for question_text, quiz_ID in recent_quizzes_raw:
-                # Count distinct students who attempted this quiz
+            for question_text, quiz_ID in recent_quizzes_raw:  # FIX 3: consistent variable name
                 cursor.execute("""
                     SELECT COUNT(DISTINCT student_id)
                     FROM QUIZ_ATTEMPTS
@@ -555,7 +549,6 @@ def report_page():
                 attempts = cursor.fetchone()[0]
                 part_rate = int((attempts / total_members) * 100) if total_members > 0 else 0
 
-                # Choose bar class based on rate
                 if part_rate >= 80:
                     bar_class = "excellent"
                 elif part_rate >= 50:
@@ -571,7 +564,6 @@ def report_page():
                     'bar_class': bar_class
                 })
 
-            # Overall quiz participation rate
             cursor.execute("SELECT COUNT(DISTINCT student_id) FROM QUIZ_ATTEMPTS")
             active_takers = cursor.fetchone()[0]
             overall_part_rate = int((active_takers / total_members) * 100) if total_members > 0 else 0
@@ -669,7 +661,6 @@ def attendance_form():
         today_date = date.today().strftime("%Y-%m-%d")
 
         try:
-
             if coming_today == 'yes':
                 conn = sqlite3.connect('science_club.db')
                 cursor = conn.cursor()
@@ -708,18 +699,55 @@ def take_quiz():
     latest_quiz = cursor.fetchone()
 
     if not latest_quiz:
-        return render_template('quiz_taking.html', error="No quiz currently available.")   # ← fixed
+        conn.close()
+        return render_template('quiz_taking.html', error="No quiz currently available.")
 
     quiz_ID, start_str = latest_quiz
     start_time = datetime.fromisoformat(start_str)
 
     if datetime.now() > start_time + timedelta(hours=1):
-        return render_template('quiz_taking.html', error="The time window for this quiz has expired!")   
+        conn.close()
+        return render_template('quiz_taking.html', error="The time window for this quiz has expired!")
+
     cursor.execute("SELECT * FROM QUIZ_ATTEMPTS WHERE student_id=? AND quizID=?", (student_id, quiz_ID))
     if cursor.fetchone():
-        return render_template('quiz_taking.html', error="You have already completed this week's quiz!")   
+        conn.close()
+        return render_template('quiz_taking.html', error="You have already completed this week's quiz!")
+
+    # FIX 5: actually handle POST — grade the quiz and award points
     if request.method == 'POST':
-        pass
+        cursor.execute("SELECT questionID FROM QUIZ WHERE quizID=?", (quiz_ID,))
+        question_ids = [row[0] for row in cursor.fetchall()]
+
+        score = 0
+        for q_id in question_ids:
+            submitted = request.form.get(f'answer_{q_id}')
+            cursor.execute(
+                "SELECT answer FROM CORRECT_ANSWER WHERE answerID = "
+                "(SELECT answerID FROM QUIZ WHERE questionID=? AND quizID=?)",
+                (q_id, quiz_ID)
+            )
+            correct_row = cursor.fetchone()
+            if correct_row and submitted == correct_row[0]:
+                score += 1
+
+        attempt_id = "ATT-" + str(uuid.uuid4())[:8]
+        cursor.execute(
+            "INSERT INTO QUIZ_ATTEMPTS (student_id, quizID) VALUES (?, ?)",
+            (student_id, quiz_ID)
+        )
+
+        if score > 0:
+            cursor.execute(
+                "INSERT INTO POINTS (student_number, number_points) VALUES (?, ?)",
+                (student_id, score)
+            )
+
+        conn.commit()
+        conn.close()
+
+        flash(f"Quiz submitted! You got {score}/{len(question_ids)} correct and earned {score} points.", "success")
+        return redirect('/member-dashboard')
 
     cursor.execute("SELECT questionID FROM QUIZ WHERE quizID=?", (quiz_ID,))
     question_ids = [row[0] for row in cursor.fetchall()]
@@ -739,14 +767,14 @@ def take_quiz():
         quiz_data.append({'q_id': q_id, 'text': q_text, 'options': options})
 
     conn.close()
-    return render_template('quiz_taking.html', quiz_data=quiz_data)   
+    return render_template('quiz_taking.html', quiz_data=quiz_data, quiz_id=quiz_ID)
 
 
 @app.route('/submit-quiz', methods=['POST'])
 def submit_quiz():
     if not session.get('logged_in'):
         return redirect('/')
-    student_number = session.get('student_number') 
+    student_number = session.get('student_id')
     if not student_number:
         student_number = request.form.get('student_number')
         
@@ -758,7 +786,7 @@ def submit_quiz():
         conn = sqlite3.connect('science_club.db')
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO QUIZ_ATTEMPTS (student_number, quizID) 
+            INSERT INTO QUIZ_ATTEMPTS (student_id, quizID) 
             VALUES (?, ?)
         """, (student_number, quiz_id))
         conn.commit()
