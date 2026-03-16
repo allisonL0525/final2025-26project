@@ -371,7 +371,7 @@ def get_report_data():
             cursor.execute("""
                 SELECT SUM(number_points)
                 FROM POINTS
-                WHERE award_date >= date('now', 'weekday 0', '-7 days')
+                WHERE award_date >= date('now', 'weekday 0')
             """)
             row = cursor.fetchone()
             total_points = row[0] if row and row[0] else 0 # defaults to 0 if no points found
@@ -385,7 +385,7 @@ def get_report_data():
                 SELECT m.Firstname, m.Lastname, COALESCE(SUM(p.number_points), 0) as total
                 FROM MEMBER m
                 LEFT JOIN POINTS p ON m.Student_number = p.student_number
-                    AND p.award_date >= date('now', 'weekday 0', '-7 days')
+                    AND p.award_date >= date('now', 'weekday 0')
                 GROUP BY m.Student_number
                 ORDER BY total DESC
                 LIMIT 5
@@ -401,7 +401,8 @@ def get_report_data():
                 SELECT qst.question, q.quizID
                 FROM QUIZ q
                 JOIN QUESTIONS qst ON q.questionID = qst.questionID
-                ORDER BY q.quizID DESC
+                JOIN QUIZ_TIMERS qt ON q.quizID = qt.quizID
+                ORDER BY qt.start_time DESC
                 LIMIT 3
             """)
             for question_text, quiz_ID in cursor.fetchall(): # loops through each quiz
