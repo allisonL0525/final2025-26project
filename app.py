@@ -473,7 +473,6 @@ def export_data():
     top_earners        = data['top_earners']
     recent_quizzes     = data['recent_quizzes']
     overall_part_rate  = data['overall_part_rate']
-
     # creates an in-memory bytes buffer to write the PDF
     buffer = io.BytesIO()
     # sets up the PDF with letter size and margins
@@ -482,18 +481,15 @@ def export_data():
                             topMargin=72, bottomMargin=72)
 
     story = [] # list that holds all PDF elements in order
-
     # loads default styles for title, headings, and normal text
     styles = getSampleStyleSheet()
     title_style   = styles['Title']
     heading_style = styles['Heading2']
     normal_style  = styles['Normal']
-
     # adds report title and generation timestamp to the PDF
     story.append(Paragraph("Science Club Weekly Report", title_style))
     story.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M')}", normal_style))
     story.append(Spacer(1, 0.2 * inch)) # adds vertical spacing
-
     # builds the summary stats table data
     data_summary = [
         ["Metric", "Value"], # header row
@@ -518,7 +514,6 @@ def export_data():
     ]))
     story.append(table_summary)
     story.append(Spacer(1, 0.3 * inch)) # adds vertical spacing
-
     # builds the top 5 earners table
     story.append(Paragraph("Top 5 Point Earners (This Week)", heading_style))
     data_top = [["Rank", "Name", "Points"]] # header row
@@ -526,7 +521,6 @@ def export_data():
         data_top.append([idx, f"{first} {last}", pts])
     if len(top_earners) == 0:
         data_top.append(["", "No data available", ""]) # safety if no earners
-
     table_top = Table(data_top, colWidths=[0.8*inch, 3.0*inch, 1.2*inch])
     table_top.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -540,7 +534,6 @@ def export_data():
     ]))
     story.append(table_top)
     story.append(Spacer(1, 0.3 * inch)) # adds vertical spacing
-
     # builds the recent quiz participation table
     story.append(Paragraph("Recent Quiz Participation", heading_style))
     data_quiz = [["Quiz Title", "Participation Rate"]] # header row
@@ -548,7 +541,6 @@ def export_data():
         data_quiz.append([q['title'], f"{q['rate']}%"])
     if not recent_quizzes:
         data_quiz.append(["No quizzes published yet", ""]) # fallback if no quizzes
-
     table_quiz = Table(data_quiz, colWidths=[3.5*inch, 1.5*inch])
     table_quiz.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -561,11 +553,9 @@ def export_data():
         ('GRID', (0, 0), (-1, -1), 1, colors.black)
     ]))
     story.append(table_quiz)
-
     doc.build(story) # builds the final PDF from all elements in story
     pdf_bytes = buffer.getvalue() # extracts the PDF bytes from the buffer
     buffer.close() # closes the buffer to free memory
-
     # sends the PDF as a downloadable file to the browser
     return Response(
         pdf_bytes,
