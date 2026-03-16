@@ -156,6 +156,7 @@ def modify_data():
             conn = get_db()
             cursor = conn.cursor()
             # inserts a new points record for the selected member
+            point_id = "PTS-" + str(uuid.uuid4())[:8]
             cursor.execute("INSERT INTO POINTS (student_number, number_points, award_date) VALUES (?, ?, ?)",
             (student_id, amount, date.today())
             )
@@ -730,6 +731,7 @@ def take_quiz():
             # only awards points if they got at least one question right
             if score > 0:
                 cursor.execute(
+                    point_id = "PTS-" + str(uuid.uuid4())[:8] 
                     "INSERT INTO POINTS (student_number, number_points, award_date) VALUES (?, ?, ?)",
                     (student_id, score, date.today())
                 )
