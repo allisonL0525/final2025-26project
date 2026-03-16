@@ -7,19 +7,19 @@
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f0f4f8;
+            background-color: #C7DFC5;
             margin: 0; 
-            color: #333;
+            color: #223127;
         }
 
         .navbar {
-            background-color: #0056b3;
+            background-color: #28A46A;
             color: white;
             padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         .navbar-brand { font-size: 24px; font-weight: bold; letter-spacing: 1px; }
         
@@ -30,44 +30,78 @@
             font-size: 16px;
             font-weight: 500;
         }
-        .nav-links a:hover { color: #b3d7ff; }
+        .nav-links a:hover { color: #C7DFC5; }
 
         .main-container { 
             max-width: 500px; 
             margin: 80px auto; 
             background: white; 
             padding: 40px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
         }
 
         h1 { 
             font-size: 24px; 
             margin-top: 0; 
             margin-bottom: 30px; 
-            font-weight: normal;
+            font-weight: bold;
+            color: #223127;
         }
 
         .form-group { margin-bottom: 30px; }
-        .form-label { display: block; font-size: 18px; margin-bottom: 15px; }
+        .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 15px; color: #0A122A; }
         
-        .radio-group { display: flex; gap: 30px; }
-        .radio-label { font-size: 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .radio-group { display: flex; gap: 15px; }
+
+        .radio-option {
+            flex: 1;
+            position: relative;
+        }
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+        .radio-option label {
+            display: block;
+            padding: 12px;
+            text-align: center;
+            border: 2px solid #C7DFC5;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #28A46A;
+            cursor: pointer;
+            transition: 0.3s;
+            background-color: #C7DFC5;
+        }
+        .radio-option input[type="radio"]:checked + label {
+            background-color: #28A46A;
+            border-color: #28A46A;
+            color: white;
+        }
+        .radio-option label:hover {
+            background-color: #28A46A;
+            border-color: #28A46A;
+            color: white;
+        }
 
         .submit-btn {
-            background-color: white;
-            color: black;
-            border: 2px solid #333;
-            padding: 8px 24px;
+            display: block;
+            width: 100%;
+            background-color: #28A46A;
+            color: white;
+            border: none;
+            padding: 14px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            border-radius: 4px;
-            transition: 0.2s;
+            border-radius: 25px;
+            transition: 0.3s;
+            margin-top: 10px;
         }
         .submit-btn:hover {
-            background-color: #f0f0f0;
+            background-color: #223127;
         }
-
     </style>
 </head>
 <body>
@@ -80,23 +114,25 @@
 </div>
 
 <div class="main-container">
-    <h1>Club attendance form</h1>
+    <h1>Club Attendance Form</h1>
     
     <form action="/attendance-form" method="POST">
         
         <div class="form-group">
             <span class="form-label">Coming today</span>
             <div class="radio-group">
-                <label class="radio-label">
-                    <input type="radio" name="coming_today" value="yes" required> yes
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="coming_today" value="no"> no
-                </label>
+                <div class="radio-option">
+                    <input type="radio" name="coming_today" id="yes" value="yes" required>
+                    <label for="yes">Yes</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="coming_today" id="no" value="no">
+                    <label for="no">No</label>
+                </div>
             </div>
         </div>
 
-        <button type="submit" class="submit-btn">submit</button>
+        <button type="submit" class="submit-btn">Submit</button>
         
     </form>
 </div>
