@@ -119,28 +119,36 @@
         </div>
     </div>
 </div>
-
 <script>
     function addQuestion() {
         const container = document.getElementById('questions-container');
-        const firstBlock = container.firstElementChild;
-        const clone = firstBlock.cloneNode(true);
-        const inputs = clone.querySelectorAll('input[type="text"], textarea');
-        inputs.forEach(input => input.value = '');
-        const selects = clone.querySelectorAll('select');
-        selects.forEach(select => select.selectedIndex = 0);
-        container.appendChild(clone);
+        const count = container.querySelectorAll('.question-block').length + 1;
+        const block = document.createElement('div');
+        block.classList.add('question-block');
+        block.innerHTML = `
+            <div class="form-group">
+                <label>Question ${count} Text</label>
+                <textarea name="question_text[]" rows="2" 
+                    placeholder="e.g. Which element is most abundant?" required></textarea>
+            </div>
+            <div class="options-grid">
+                <input type="text" name="opt_A[]" placeholder="Option A Text" required>
+                <input type="text" name="opt_B[]" placeholder="Option B Text" required>
+                <input type="text" name="opt_C[]" placeholder="Option C Text" required>
+                <input type="text" name="opt_D[]" placeholder="Option D Text" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Which option is the correct answer?</label>
+                <select name="correct_ans[]" required>
+                    <option value="0">Option A</option>
+                    <option value="1">Option B</option>
+                    <option value="2">Option C</option>
+                    <option value="3">Option D</option>
+                </select>
+            </div>
+        `;
+        container.appendChild(block);
     }
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          {% if category == 'success' %}
-            alert("✅ Quiz successfully created!");
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
 </script>
 
 </body>
