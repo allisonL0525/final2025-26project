@@ -368,11 +368,11 @@ def get_report_data():
             print(f"Attendance table issue: {e}")
 
         try:
-            # sums all points awarded since last Sunday
+            # sums all points awarded in the last 7 days
             cursor.execute("""
                 SELECT SUM(number_points)
                 FROM POINTS
-                WHERE award_date >= date('now', 'weekday 0')
+                WHERE award_date >= date('now', '-7 days')
             """)
             row = cursor.fetchone()
             total_points = row[0] if row and row[0] else 0 # defaults to 0 if no points found
@@ -381,12 +381,12 @@ def get_report_data():
             print(f"Points query failed: {e}")
 
         try:
-            # gets top 5 members ranked by points earned this week
+            # gets top 5 members ranked by points earned in the last 7 days
             cursor.execute("""
                 SELECT m.Firstname, m.Lastname, COALESCE(SUM(p.number_points), 0) as total
                 FROM MEMBER m
                 LEFT JOIN POINTS p ON m.Student_number = p.student_number
-                    AND p.award_date >= date('now', 'weekday 0')
+                    AND p.award_date >= date('now', '-7 days')
                 GROUP BY m.Student_number
                 ORDER BY total DESC
                 LIMIT 5
@@ -450,7 +450,6 @@ def get_report_data():
         'recent_quizzes': recent_quizzes,
         'overall_part_rate': overall_part_rate
     }
-
 
 @app.route('/report-page')  # maps /report-page URL to this function
 def report_page():
